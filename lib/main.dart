@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController stockController = TextEditingController();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<Map<String, dynamic>> stockData = [];
-  String? apiKey = "your_finnhub_api_key"; // Replace with your API key
+  String? apiKey = "ctce1nhr01qjor98cmogctce1nhr01qjor98cmp0"; // Replace with your API key
 
   Future<void> fetchStockData(String symbol) async {
     final url = Uri.parse('https://finnhub.io/api/v1/quote?symbol=$symbol&token=$apiKey');
