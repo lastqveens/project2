@@ -37,26 +37,29 @@ class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   Future<void> loginUser(BuildContext context) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString())),
-      );
-    }
+  try {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+    if (!context.mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const HomePage()),
+    );
+  } catch (e) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(e.toString())),
+    );
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: Colors.grey,
       appBar: AppBar(
         title: const Text('Login'),
       ),
@@ -157,18 +160,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadWatchlist() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final snapshot = await firestore
-          .collection('users')
-          .doc(user.uid)
-          .collection('watchlist')
-          .get();
-      setState(() {
-        watchlist = snapshot.docs.map((doc) => doc['symbol'] as String).toList();
-      });
-    }
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    final snapshot = await firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('watchlist')
+        .get();
+    final loadedWatchlist = snapshot.docs.map((doc) => doc['symbol'] as String).toList();
+    setState(() {
+      watchlist = loadedWatchlist;
+    });
   }
+}
+
 
   Future<void> addToWatchlist(String symbol) async {
     final user = FirebaseAuth.instance.currentUser;
