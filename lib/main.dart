@@ -51,26 +51,26 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             TextField(
               controller: passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () => loginUser(context),
-              child: Text('Login'),
+              child: const Text('Login'),
             ),
           ],
         ),
@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController stockController = TextEditingController();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<Map<String, dynamic>> stockData = [];
-  String? apiKey = "ctce1nhr01qjor98cmogctce1nhr01qjor98cmp0"; // Replace with your API key
+  String? apiKey = "ctd32j9r01qlc0uvurv0ctd32j9r01qlc0uvurvg"; // Replace with your API key
 
   Future<void> fetchStockData(String symbol) async {
     final url = Uri.parse('https://finnhub.io/api/v1/quote?symbol=$symbol&token=$apiKey');
@@ -104,6 +104,10 @@ class _HomePageState extends State<HomePage> {
             'low': data['l'],
           });
         });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to fetch stock data')),
+        );
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -127,10 +131,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stock Tracker'),
+        title: const Text('Stock Tracker'),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
             onPressed: () {
               FirebaseAuth.instance.signOut();
               Navigator.pushReplacement(
@@ -142,7 +146,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
@@ -150,12 +154,12 @@ class _HomePageState extends State<HomePage> {
               decoration: InputDecoration(
                 labelText: 'Enter Stock Symbol',
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                   onPressed: () => fetchStockData(stockController.text.trim()),
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 itemCount: stockData.length,
@@ -165,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                     title: Text('${stock['symbol']}'),
                     subtitle: Text('Current Price: \$${stock['currentPrice']}'),
                     trailing: IconButton(
-                      icon: Icon(Icons.add),
+                      icon: const Icon(Icons.add),
                       onPressed: () => addToWatchlist(stock['symbol']),
                     ),
                   );
