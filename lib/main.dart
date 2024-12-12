@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> newsData = [];
   List<String> watchlist = [];
   String? apiKey = "ctd32j9r01qlc0uvurv0ctd32j9r01qlc0uvurvg"; // Replace with your API key
-  String? newsApiKey = "YOUR_NEWS_API_KEY"; // Replace with your news API key
+  String? newsApiKey = "ab0c9fb44837423295308ac0b6d9ef3b"; // Replace with your news API key
 
   @override
   void initState() {
